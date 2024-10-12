@@ -1,4 +1,6 @@
+#Tkinter
 import tkinter as tk
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton
 from tkinter import ttk, messagebox
 
 # Dados dos animais: quantidades de comida consumida (em kg)
