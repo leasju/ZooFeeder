@@ -8,11 +8,8 @@ class MainWindow(QMainWindow):
         window = QWidget()
         self.setWindowTitle("ZooFeeder")
         
-        
-        
-        # Define o tamanho da janela (largura, altura)
-        self.resize(235, 180)  # Ajuste os valores conforme necessário
-
+        # Tamanho da janela 
+        self.resize(235, 180)  
 
         # Configuração central do widget
         container = QWidget()
@@ -22,12 +19,12 @@ class MainWindow(QMainWindow):
         label.move(60, 15)
         self.layout.addWidget(label)
 
-        # Definir o tamanho da fonte para a QLabel
+        # Tamanho da fonte para a QLabel
         fonte = QFont()
         fonte.setPointSize(16)  # Altere este valor para aumentar ou diminuir o tamanho da fonte
         label.setFont(fonte)
         
-        # Adicionar label e botão
+        # Adicionar label ao layout
         self.label1 = QLabel("Gerencie a alimentação dos animais do zoológico")
         self.label2 = QLabel("Selecione os animais")
         self.layout.addWidget(self.label1)
@@ -37,11 +34,12 @@ class MainWindow(QMainWindow):
         self.comboboxes = []
         self.comboBox()
 
-        # Definir e adicionar o botão de enviar
+        # Definir e adicionar o botão de enviar ao layout
         self.button = QPushButton("Enviar")
         self.button.clicked.connect(self.enviar_dados)
         self.layout.addWidget(self.button)
 
+    # Função para selecionar um animal
     def comboBox(self):
         # Criação dos comboboxes
         for _ in range(4):
@@ -59,14 +57,7 @@ class MainWindow(QMainWindow):
             self.layout.addWidget(combobox)
             self.comboboxes.append(combobox)
 
-    def current_text_changed(self, s):
-        if s != 'Selecione':
-            for combobox in self.comboboxes:
-                if combobox != self.sender():
-                    index = combobox.findText(s)
-                    if index != -1:
-                        combobox.removeItem(index)
-
+    # Função de enviar dados das comboboxes
     def enviar_dados(self):
         # Coleta os dados selecionados das comboboxes
         dados_selecionados = [combobox.currentText() for combobox in self.comboboxes]
