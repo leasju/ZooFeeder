@@ -1,18 +1,17 @@
-#Tkinter
 import tkinter as tk
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton
 from tkinter import ttk, messagebox
 
 # Dados dos animais: quantidades de comida consumida (em kg)
 animais = {
-    'Elefante': {'veg': 4.5, 'er': 6.5, 'pei': 0},
-    'Girafa': {'veg': 1.5, 'er': 1.5, 'pei': 0},
-    'Hipopotamo': {'veg': 2.5, 'er': 2.5, 'pei': 0},
-    'Gorila': {'veg': 2.5, 'er': 1.0, 'pei': 0},
-    'Alce': {'veg': 1.0, 'er': 2.0, 'pei': 0},
-    'Canguru': {'veg': 1.0, 'er': 1.0, 'pei': 0},
-    'Zebra': {'veg': 1.5, 'er': 1.0, 'pei': 0},
-    'Pinguim': {'veg': 0, 'er': 0, 'pei': 2.0}
+    'Elefante': {'veg': 4.5, 'herb': 6.5, 'fish': 0},
+    'Girafa': {'veg': 1.5, 'herb': 1.5, 'fish': 0},
+    'Hipopotamo': {'veg': 2.5, 'herb': 2.5, 'fish': 0},
+    'Gorila': {'veg': 2.5, 'herb': 1.0, 'fish': 0},
+    'Alce': {'veg': 1.0, 'herb': 2.0, 'fish': 0},
+    'Canguru': {'veg': 1.0, 'herb': 1.0, 'fish': 0},
+    'Zebra': {'veg': 1.5, 'herb': 1.0, 'fish': 0},
+    'Pinguim': {'veg': 0, 'herb': 0, 'fish': 2.0}
 }
 
 # Função para calcular a quantidade de briquetes
@@ -28,32 +27,32 @@ def calcular_briquetes(animais_selecionados, seguir_ordem):
     else:
         round_1_animais = [animais_selecionados[0], animais_selecionados[2]]
         round_2_animais = [animais_selecionados[1], animais_selecionados[3]]
-
+    
     # Função auxiliar para somar comida
     def somar_comida(animais_lista):
-        comida_total = {'veg': 0, 'er': 0, 'pei': 0}
+        comida_total = {'veg': 0, 'herb': 0, 'fish': 0}
         for animal in animais_lista:
             comida_total['veg'] += animais[animal]['veg']
-            comida_total['er'] += animais[animal]['er']
-            comida_total['pei'] += animais[animal]['pei']
+            comida_total['herb'] += animais[animal]['herb']
+            comida_total['fish'] += animais[animal]['fish']
         return comida_total
-
+    
     # Calcular comida total para cada round
     round_1_comida = somar_comida(round_1_animais)
     round_2_comida = somar_comida(round_2_animais)
-
+    
     # Função para converter kg em briquetes (1 briquete = 3 kg)
     def converter_briquetes(comida):
         return {tipo: (quantidade // 3) + (1 if quantidade % 3 > 0 else 0) for tipo, quantidade in comida.items()}
-
+    
     # Converte a quantidade de comida total em briquetes
     round_1_briquetes = converter_briquetes(round_1_comida)
     round_2_briquetes = converter_briquetes(round_2_comida)
-
+    
     # Função para calcular briquetes sobrando
     def calcular_sobrando(briquetes):
-        total_briquetes = briquetes['veg'] + briquetes['er'] + briquetes['pei'] + 1  # +1 para o briquete de carne fixo
-        return 8 - total_briquetes
+        total_briquetes = briquetes['veg'] + briquetes['herb'] + briquetes['fish'] + 1  # +1 para o briquete de carne fixo
+        return 8 
 
     # Calcula os espaços sobrando no carrinho
     round_1_sobrando = calcular_sobrando(round_1_briquetes)
@@ -64,8 +63,8 @@ def calcular_briquetes(animais_selecionados, seguir_ordem):
         resultado = f"Round {round_num}:\n"
         resultado += f"Animais: {', '.join(animais_round)}\n"
         resultado += f"{briquetes['veg']} briquetes de vegetais\n"
-        resultado += f"{briquetes['er']} briquetes de erva\n"
-        resultado += f"{briquetes['pei']} briquetes de peixe\n"
+        resultado += f"{briquetes['herb']} briquetes de erva\n"
+        resultado += f"{briquetes['fish']} briquetes de peixe\n"
         resultado += f"1 carne (fixo)\n"
         if sobrando > 0:
             resultado += f"Sobrando {sobrando} espaços no carrinho\n"
