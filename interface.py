@@ -3,6 +3,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QPalette, QBrush, QPixmap, QIcon  # Main Window Style
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QMainWindow, QComboBox, QPushButton, QLabel, QDialog
 
+# Result window
 class ResultadoDialog(QDialog):
     def __init__(self, dados):
         super().__init__()
@@ -11,7 +12,7 @@ class ResultadoDialog(QDialog):
 
         # Layout e exibição dos dados enviados
         layout = QVBoxLayout()
-        label = QLabel("Animals select:")
+        label = QLabel("Animals selected: ")
         layout.addWidget(label)
 
         # Exibir os dados selecionados
@@ -21,6 +22,7 @@ class ResultadoDialog(QDialog):
 
         self.setLayout(layout)
 
+# Main Window
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -28,15 +30,15 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("ZooFeeder")
         
         # Window icon
-        self.setWindowIcon(QIcon("img/icon1.png"))  
+        self.setWindowIcon(QIcon("img/zoo_icon.png"))  
         
         # Window size
         self.setFixedSize(300, 250)  
 
         # Background config
-        self.set_background_image("img/back1.jpg")
+        self.set_background_image("img/background.jpg")
         
-        # Configuração central do widget
+        # Central widget config
         container = QWidget()
         self.setCentralWidget(container)
         self.layout = QVBoxLayout(container)
@@ -50,6 +52,7 @@ class MainWindow(QMainWindow):
         fonte.setPointSize(16)
         self.label.setFont(fonte)
         
+        
         # Add other labels to layout
         self.label1 = QLabel("Gerencie a alimentação dos animais do zoológico")
         self.label2 = QLabel("Select the animals: ")
@@ -60,29 +63,38 @@ class MainWindow(QMainWindow):
         self.comboboxes = []
         self.comboBox()
 
-        # Definir e adicionar o botão de enviar ao layout
+        # Send button
         self.button = QPushButton("Send")
-        self.button.clicked.connect(self.enviar_dados)
+        self.button.clicked.connect(self.send)
         self.layout.addWidget(self.button)
+        
+        # Clear button
+        self.button = QPushButton("Clear")
+        self.button.clicked.connect(self.clear)
+        self.layout.addWidget(self.button)
+        
+         # QLabel for status or feedback
+        self.status_label = QLabel("")
+        self.layout.addWidget(self.status_label)
+
 
     # Window background image function
     def set_background_image(self, image_path):
         # Carregar a imagem
         pixmap = QPixmap(image_path)
-        # Redimensionar a imagem para o tamanho da janela, mantendo a proporção
-        pixmap = pixmap.scaled(self.size(), aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatioByExpanding)
-        
-        # Configurar a imagem de fundo com QPalette
-        palette = QPalette()
-        palette.setBrush(QPalette.ColorRole.Window, QBrush(pixmap))
-        self.setPalette(palette)
+        # QLabel para a imagem de fundo
+        self.background_label = QLabel(self)
+        self.background_label.setPixmap(pixmap)
+        self.background_label.setScaledContents(False)  # Não escala a imagem
+        self.background_label.setGeometry(0, 0, pixmap.width(), pixmap.height())
+        self.background_label.lower()  # Put the image behind the other widgets 
 
     # Select animal function
     def comboBox(self):
         # Create comboboxes
         for _ in range(4):
             combobox = QComboBox()
-            combobox.addItem('Selecione')
+            combobox.addItem('Selecione') # Placeholder
             combobox.addItem('Elefante')
             combobox.addItem('Girafa')
             combobox.addItem('Hipopotamo')
@@ -95,6 +107,7 @@ class MainWindow(QMainWindow):
             self.layout.addWidget(combobox)
             self.comboboxes.append(combobox)
 
+    # Function for remove the comboboxes which are not selected
     def current_text_changed(self, s):
         if s != 'Selecione':
             for combobox in self.comboboxes:
@@ -103,20 +116,34 @@ class MainWindow(QMainWindow):
                     if index != -1:
                         combobox.removeItem(index)
 
-    # Send data function
-    def enviar_dados(self):
-        # Coleta os dados selecionados das comboboxes
-        dados_selecionados = [combobox.currentText() for combobox in self.comboboxes]
-        # Verifica se há algum item 'Selecione' e remove-o da lista
-        dados_selecionados = [item for item in dados_selecionados if item != 'Select']
-        print("Dados enviados:", dados_selecionados)
+    # Send form data function
+    def send(self):
+        # Coleta os dados selecionados das comboboxes, ignorando os que estão no índice 0 (placeholder "Selecione")
+        send_data = [combobox.currentText() for combobox in self.comboboxes if combobox.currentIndex() != 0]
         
-        # Refresh label text
-        self.label.setText("Dados enviados com sucesso!")
+        # Verifica se algum combobox ainda está com o item "Selecione" (índice 0)
+        if len(send_data) != len(self.comboboxes):
+            self.status_label.setText("Selecione um opção válida")
+            return
+        print("Dados enviados:", send_data)
         
+        # Update the status label text
+        self.status_label.setText("Dados enviados com sucesso!")
+            
         # Open a new window to show de results
-        self.resultado_dialog = ResultadoDialog(dados_selecionados)
+        self.resultado_dialog = ResultadoDialog(send_data)
         self.resultado_dialog.exec()
+                
+    # Clean data function
+    def clear(self):
+        # Reseta cada combobox para o item "Selecione"
+        for combobox in self.comboboxes:
+            combobox.setCurrentIndex(0)  
+        print("Formulário limpo com sucesso!")
+            
+        # Refresh label text
+        self.status_label.setText("Formulário limpo com sucesso")
+        
 
 # Initialize the application
 app = QApplication(sys.argv)
