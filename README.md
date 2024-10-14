@@ -49,7 +49,7 @@
     <ol>
         <li>
             Clone o repositório:
-            <pre><code>git clone &lt;repository_url&gt;
+            <pre><code>git clone git@github.com:leasju/ZooFeeder.git;
   
 cd ZooFeeder</code></pre>
         </li>
