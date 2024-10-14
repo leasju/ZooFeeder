@@ -86,12 +86,8 @@
     </ol>
     <h2>Melhorias Futuras</h2>
     <ul>
-        <li>Adicionar mais tipos de animais e seus respectivos dados de alimentação.</li>
         <li>Incluir opções para que os usuários personalizem a quantidade de comida necessária para cada animal.</li>
         <li>Melhorar a GUI com funcionalidades adicionais, como imagens de animais e um layout mais interativo.</li>
     </ul>
-    <h2>Agradecimentos</h2>
-    <p>Agradecimentos à biblioteca PyQt6 por fornecer as ferramentas para criar uma GUI funcional e amigável.</p>
-    <p>Agradecimentos especiais aos colaboradores e à comunidade pelo apoio e feedback.</p>
 </body>
 </html>
