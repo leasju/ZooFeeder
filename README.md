@@ -45,24 +45,38 @@
         <li><strong>PyQt6:</strong> Um conjunto de bindings em Python para o framework de aplicação Qt, utilizado para criar a interface gráfica.</li>
         <li><strong>Estruturas de Dados:</strong> Utiliza dicionários para armazenar dados de alimentação dos animais, permitindo a recuperação e o cálculo eficientes das quantidades de comida.</li>
     </ul>
-  <h2>Como Executar a Aplicação</h2>
-    <ol>
-        <li>
-            Clone o repositório:
-            <pre><code>git clone &lt;repository_url&gt;
-  
-cd ZooFeeder</code></pre>
-        </li>
-        <li>
-            Instale os pacotes necessários: Certifique-se de ter o Python instalado e, em seguida, instale os pacotes necessários usando o pip:
-            <pre><code>pip install PyQt6</code></pre>
-        </li>
-        <li>
-            Execute a aplicação: Execute o script principal:
-            <pre><code>python interface.py</code></pre>
-        </li>
-    </ol>
-    <h2>Instruções de Uso</h2>
+ <h2>Como Executar a Aplicação</h2>
+<ol>
+    <li>
+        Crie um ambiente virtual: É recomendado usar um ambiente virtual para gerenciar as dependências da aplicação. Para criar um ambiente virtual, use o seguinte comando:
+        <pre><code>python -m venv myvenv</code></pre>
+    </li>
+    <li>
+        Ative o ambiente virtual:
+        <ul>
+            <li>No Windows:
+                <pre><code>myvenv\Scripts\activate</code></pre>
+            </li>
+            <li>No macOS e Linux:
+                <pre><code>source myvenv/bin/activate</code></pre>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Clone o repositório:
+        <pre><code>git clone git@github.com:leasju/ZooFeeder.git</code></pre>
+        <pre><code>cd ZooFeeder</code></pre>
+    </li>
+    <li>
+        Instale as dependências: Para instalar todas as dependências necessárias de uma vez, você pode usar o arquivo <code>requirements.txt</code> incluído no projeto. Execute o seguinte comando:
+        <pre><code>pip install -r requirements.txt</code></pre>
+    </li>
+    <li>
+        Execute a aplicação: Agora você pode executar o script principal:
+        <pre><code>python app.py</code></pre>
+    </li>
+</ol>
+<h2>Instruções de Uso</h2>
     <ol>
         <li>Ao iniciar a aplicação, você verá uma mensagem de boas-vindas e opções para selecionar animais.</li>
         <li>Escolha até quatro animais diferentes nos menus suspensos.</li>
