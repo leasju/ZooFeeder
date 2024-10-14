@@ -7,7 +7,7 @@
         ZooFeeder é uma aplicação em Python desenvolvida para ajudar a gerenciar a alimentação de animais em zoológicos, calculando as quantidades necessárias de pacotes de comida com base nos animais selecionados. Este projeto inclui uma interface gráfica (GUI) criada com PyQt6, permitindo que os usuários selecionem facilmente os animais e visualizem as necessidades alimentares para cada rodada de alimentação.
     </p>
     <h2>Inspiração</h2>
-    <img url="/Downloads/zoo.png">
+    ![Logo do projeto](img/zoo_git.png)
     <p>
     A inspiração para esta aplicação veio do jogo de terror Zoochosis (https://store.steampowered.com/app/2458560/Zoochosis/), no qual o personagem principal é um funcionário de zoológico que precisa cumprir diversas tarefas, incluindo alimentar os animais em seus recintos. No jogo, o funcionário deve cuidar de quatro recintos diferentes, e cada um deles requer uma certa quantidade de comida.
     </p>
