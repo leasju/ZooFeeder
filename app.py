@@ -27,22 +27,23 @@ animals = {
 }
 
 # Function to calculate the amount of briquettes needed
-def calcular_briquetes(animais_selecionados, seguir_ordem):
+# pack_calc = package calculator
+def pack_calc(selected_animals, follow_order):
     round_1_animals = []
     round_2_animals = []
 
     # Check if the order should be followed
-    if seguir_ordem:
-        round_1_animals = animais_selecionados[:2]
-        round_2_animals = animais_selecionados[2:]
+    if follow_order:
+        round_1_animals = selected_animals[:2]
+        round_2_animals = selected_animals[2:]
     else:
-        round_1_animals = [animais_selecionados[0], animais_selecionados[2]]
-        round_2_animals = [animais_selecionados[1], animais_selecionados[3]]
+        round_1_animals = [selected_animals[0], selected_animals[2]]
+        round_2_animals = [selected_animals[1], selected_animals [3]]
 
     # Function to sum the food needed for a list of animals
-    def sum_food(animais_lista):
+    def sum_food(animals_list):
         food_total = {'veg': 0, 'herb': 0, 'fish': 0}
-        for animal in animais_lista:
+        for animal in animals_list:
             food_total['veg'] += animals[animal]['veg']
             food_total['herb'] += animals[animal]['herb']
             food_total['fish'] += animals[animal]['fish']
@@ -53,23 +54,23 @@ def calcular_briquetes(animais_selecionados, seguir_ordem):
     round_2_food = sum_food(round_2_animals)
 
     # Function to convert food into briquettes
-    def converter_briquetes(food):
+    def convert_pack(food):
         return {type_: (quantity // 3) + (1 if quantity % 3 > 0 else 0) for type_, quantity in food.items()}
 
     # Convert food to briquettes for each round
-    round_1_briquettes = converter_briquetes(round_1_food)
-    round_2_briquettes = converter_briquetes(round_2_food)
+    round_1_packages = convert_pack(round_1_food)
+    round_2_packages = convert_pack(round_2_food)
 
     # Function to calculate remaining space in the cart
-    def calcular_sobrando(briquettes):
-        total_briquettes = briquettes['veg'] + briquettes['herb'] + briquettes['fish'] + 1  # +1 for the fixed meat briquette
-        return 8 - total_briquettes  # Assuming the cart can hold a maximum of 8 briquettes
+    def calcular_sobrando(packages):
+        total_packages = packages['veg'] + packages['herb'] + packages['fish'] + 1  # +1 for the fixed meat briquette
+        return 8 - total_packages  # Assuming the cart can hold a maximum of 8 briquettes
 
     # Calculate remaining space for each round
-    round_1_remaining = calcular_sobrando(round_1_briquettes)
-    round_2_remaining = calcular_sobrando(round_2_briquettes)
+    round_1_remaining = calcular_sobrando(round_1_packages)
+    round_2_remaining = calcular_sobrando(round_2_packages)
 
-    return (round_1_animals, round_1_briquettes, round_1_remaining), (round_2_animals, round_2_briquettes, round_2_remaining)
+    return (round_1_animals, round_1_packages, round_1_remaining), (round_2_animals, round_2_packages, round_2_remaining)
 
 # Result window class
 class ResultadoDialog(QDialog):
@@ -140,7 +141,7 @@ class MainWindow(QMainWindow):
 
         # Window config and layout
         self.setWindowIcon(QIcon("img/zoo_icon.png"))
-        self.setFixedSize(320, 280)  # Set fixed size for the window
+        self.setFixedSize(320, 280)  
         self.set_background_image("img/background.jpg")
 
         # Central widget configuration
@@ -172,10 +173,6 @@ class MainWindow(QMainWindow):
         # Button setup for sending data and clearing selections
         self.setup_buttons()
 
-        # Status/feedback label
-        self.status_label = QLabel("")
-        self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.status_label)
 
     # Function to set a background image for the main window
     def set_background_image(self, image_path):
@@ -184,7 +181,7 @@ class MainWindow(QMainWindow):
         self.background_label.setPixmap(pixmap)
         self.background_label.setScaledContents(False)
         self.background_label.setGeometry(0, 0, pixmap.width(), pixmap.height())
-        self.background_label.lower()  # Ensure background is behind other widgets
+        self.background_label.lower() 
 
     # Function to create and configure the comboboxes for animal selection
     def comboBox(self):
@@ -192,7 +189,7 @@ class MainWindow(QMainWindow):
             combobox = QComboBox()
             combobox.addItem('Select')
             combobox.addItems(animals.keys())  # Populate combobox with animal names
-            combobox.currentIndexChanged.connect(self.update_comboboxes)  # Connect to update function
+            combobox.currentIndexChanged.connect(self.update_comboboxes) 
             self.layout.addWidget(combobox)
             self.comboboxes.append(combobox)
 
@@ -217,8 +214,8 @@ class MainWindow(QMainWindow):
             return
 
         # Check if order needs to be followed
-        seguir_ordem = self.follow_order_checkbox.isChecked()
-        dados_round1, dados_round2 = calcular_briquetes(send_data, seguir_ordem)
+        follow_order = self.follow_order_checkbox.isChecked()
+        dados_round1, dados_round2 = pack_calc(send_data, follow_order)
 
         # Display results in a dialog
         self.resultado_dialog = ResultadoDialog(dados_round1, dados_round2)
@@ -229,8 +226,7 @@ class MainWindow(QMainWindow):
         for combobox in self.comboboxes:
             combobox.setCurrentIndex(0)
         self.follow_order_checkbox.setChecked(False )
-        self.status_label.setText("")  # Clear status label
-
+    
     # Function to set up the buttons for sending data and clearing selections
     def setup_buttons(self):
         # Create a horizontal layout for the buttons
@@ -240,13 +236,13 @@ class MainWindow(QMainWindow):
         self.send_button = QPushButton("Calculate")
         self.send_button.clicked.connect(self.send)  # Connect to send function
         button_layout.addWidget(self.send_button)
-        self.send_button.setFixedSize(100, 30)  # Set fixed size for the button
+        self.send_button.setFixedSize(100, 30) 
 
         # Button to clear selections
         self.clear_button = QPushButton("Clear")
         self.clear_button.clicked.connect(self.clear)  # Connect to clear function
         button_layout.addWidget(self.clear_button)
-        self.clear_button.setFixedSize(100, 30)  # Set fixed size for the button
+        self.clear_button.setFixedSize(100, 30)  
 
         # Add the button layout to the main layout
         self.layout.addLayout(button_layout)
