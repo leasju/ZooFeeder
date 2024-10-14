@@ -3,14 +3,25 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QPixmap, QIcon
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QMainWindow, QComboBox, QPushButton, QLabel, QDialog, QHBoxLayout, QMessageBox, QCheckBox
 
+# FOOD CONSUMED 
+# Elefant: 4.5 veg, 6.5 herb
+# Giraffe: 1.5 veg, 3.5 herb
+# Gorilla: 2.5 veg, 1.0 herb
+# Hippo: 1.5 veg, 2.5 herb
+# Moose: 1.0 veg, 2.0 herb
+# Wallaby:  1.0 veg, 2.0 herb
+# Zebra: 1.5 veg, 1.0 herb
+# Penguin: 2.0 fish
+
+
 # Animal data: amount of food consumed (in kg)
 animals = {
     'Elephant': {'veg': 4.5, 'herb': 6.5, 'fish': 0},
-    'Giraffe': {'veg': 1.5, 'herb': 1.5, 'fish': 0},
-    'Hippopotamus': {'veg': 2.5, 'herb': 2.5, 'fish': 0},
+    'Giraffe': {'veg': 1.5, 'herb': 3.5, 'fish': 0},
+    'Hippo': {'veg': 1.5, 'herb': 2.5, 'fish': 0},
     'Gorilla': {'veg': 2.5, 'herb': 1.0, 'fish': 0},
     'Moose': {'veg': 1.0, 'herb': 2.0, 'fish': 0},
-    'Kangaroo': {'veg': 1.0, 'herb': 1.0, 'fish': 0},
+    'Wallaby': {'veg': 1.0, 'herb': 2.0, 'fish': 0},
     'Zebra': {'veg': 1.5, 'herb': 1.0, 'fish': 0},
     'Penguin': {'veg': 0, 'herb': 0, 'fish': 2.0}
 }
@@ -29,7 +40,7 @@ def calcular_briquetes(animais_selecionados, seguir_ordem):
         round_2_animals = [animais_selecionados[1], animais_selecionados[3]]
 
     # Function to sum the food needed for a list of animals
-    def somar_comida(animais_lista):
+    def sum_food(animais_lista):
         food_total = {'veg': 0, 'herb': 0, 'fish': 0}
         for animal in animais_lista:
             food_total['veg'] += animals[animal]['veg']
@@ -38,8 +49,8 @@ def calcular_briquetes(animais_selecionados, seguir_ordem):
         return food_total
 
     # Calculate food for each round
-    round_1_food = somar_comida(round_1_animals)
-    round_2_food = somar_comida(round_2_animals)
+    round_1_food = sum_food(round_1_animals)
+    round_2_food = sum_food(round_2_animals)
 
     # Function to convert food into briquettes
     def converter_briquetes(food):
